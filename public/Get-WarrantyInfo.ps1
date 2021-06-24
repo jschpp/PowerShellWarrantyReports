@@ -21,7 +21,14 @@ function  Get-Warrantyinfo {
             7 { get-DellWarranty -SourceDevice $DeviceSerial -client $Client }
             8 { get-LenovoWarranty -SourceDevice $DeviceSerial -client $Client }
             9 { get-ToshibaWarranty -SourceDevice $DeviceSerial -client $line.client }
-            10 { get-HPWarranty  -SourceDevice $DeviceSerial -client $Client }
+            10 {
+                if ($DeviceSerial -match "^[a-zA-Z]{2}[\da-zA-Z][a-zA-Z]\d{6}$") {
+                    get-FujitsuWarranty -SourceDevice $DeviceSerial -client $Client
+                }
+                else {
+                    get-HPWarranty  -SourceDevice $DeviceSerial -client $Client 
+                }
+            }
             12 {
                 if ($DeviceSerial -match "^\d+$") {
                     Get-MSWarranty  -SourceDevice $DeviceSerial -client $Client 
